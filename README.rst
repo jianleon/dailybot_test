@@ -49,3 +49,9 @@ Los recursos **GET**, tienen por defecto un sistema de estandarizado por HTTP de
 **Recurso para consultar películas en orden por duración**
 
 **GET** ``http://localhost:8000/movie/duration?sort=top_to_down``
+
+
+Para ejecutar los tests
+-----------------------
+
+``$ python manage.py test``
