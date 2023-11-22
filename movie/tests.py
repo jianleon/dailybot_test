@@ -13,6 +13,7 @@ from genre.models import Genre
 from movie.models import Movie
 
 
+ACTOR_ENDPOINT = "/movie/actor"
 DURATION_ENDPOINT = "/movie/duration"
 YEAR_ENDPOINT = "/movie/year"
 
@@ -34,10 +35,16 @@ class MovieTestCase(TestCase):
         )
         dracula_movie.save()
 
-        dracula_movie.actors.add(*[Actor(name="Keanu Rieves").save()])
-        dracula_movie.genres.add(*[Genre(name="Suspense").save()])
+        dracula_actor = Actor(name="Keanu Rieves")
+        dracula_actor.save()
 
-        movie = Movie(
+        dracula_genre = Genre(name="Suspense")
+        dracula_genre.save()
+
+        dracula_movie.actors.add(dracula_actor)
+        dracula_movie.genres.add(dracula_genre)
+
+        insideout_movie = Movie(
             title="Insideout",
             storyline="Película animada sobre emociones",
             content_rating="F",
@@ -47,10 +54,24 @@ class MovieTestCase(TestCase):
             year=2020,
             viewer_count=50000
         )
-        movie.save()
+        insideout_movie.save()
 
-        movie.actors.add(*[Actor(name="Sofia").save()])
-        movie.genres.add(*[Genre(name="Animated").save()])
+        insideout_actor = Actor(name="Keanu Rieves")
+        insideout_actor.save()
+
+        insideout_genre = Genre(name="Suspense")
+        insideout_genre.save()
+
+        insideout_movie.actors.add(insideout_actor)
+        insideout_movie.genres.add(insideout_genre)
+
+    def test_actor_related(self):
+        """ Asserts if response retrieves the movies by actor related. """
+        client = APIClient()
+        response = client.get(ACTOR_ENDPOINT, {"actor": "Keanu Rieves"})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(json.loads(response.content)["count"], 1)
 
     def test_year_top_to_down(self):
         """ Asserts if response retrieves the movies by year correctly. """
