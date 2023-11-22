@@ -16,9 +16,8 @@ Pasos para instalar el entorno
 
 ``$ pip install -r requirements.txt``
 
-4. Realizar migraciones y ejecutarlas
+4. Realizar migraciones
 
-``$ python manage.py makemigrations``
 ``$ python manage.py migrate``
 
 5. Activar el servidor
